@@ -1,0 +1,44 @@
+{
+  "collections": [
+    {
+      "name": "grievances",
+      "fields": [
+        { "name": "id", "type": "string" },
+        { "name": "trackId", "type": "string" },
+        { "name": "citizenId", "type": "string" },
+        { "name": "language", "type": "string" },
+        { "name": "originalTranscript", "type": "string" },
+        { "name": "summaryEn", "type": "string" },
+        { "name": "summaryTa", "type": "string" },
+        { "name": "category", "type": "string" },
+        { "name": "departmentId", "type": "string" },
+        { "name": "departmentName", "type": "string" },
+        { "name": "priority", "type": "string" },
+        { "name": "priorityReason", "type": "string" },
+        { "name": "confidenceScore", "type": "number" },
+        { "name": "location", "type": "map" },
+        { "name": "attachments", "type": "array" },
+        { "name": "entities", "type": "map" },
+        { "name": "status", "type": "string" },
+        { "name": "statusHistory", "type": "array" },
+        { "name": "officerNotes", "type": "string" },
+        { "name": "createdAt", "type": "timestamp" },
+        { "name": "updatedAt", "type": "timestamp" },
+        { "name": "assignedOfficerId", "type": "string" },
+        { "name": "estimatedDays", "type": "number" },
+        { "name": "resolutionFeedback", "type": "map" }
+      ]
+    },
+    {
+      "name": "notifications",
+      "fields": [
+        { "name": "id", "type": "string" },
+        { "name": "userId", "type": "string" },
+        { "name": "message", "type": "string" },
+        { "name": "type", "type": "string" },
+        { "name": "read", "type": "boolean" },
+        { "name": "createdAt", "type": "timestamp" }
+      ]
+    }
+  ]
+}

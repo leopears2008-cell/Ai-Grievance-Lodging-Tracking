@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function getUserRole() {
+      // Assuming we set a custom claim or read from a users collection
+      // We will look up from a /users/ collection for demo purposes
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow write: if request.auth.uid == userId;
+    }
+
+    match /grievances/{document=**} {
+      allow read: if isSignedIn() && (
+        getUserRole() == 'ADMIN' || 
+        (getUserRole() == 'OFFICER' && resource.data.assignedOfficerId == request.auth.uid) ||
+        (resource.data.citizenId == request.auth.uid)
+      );
+      
+      allow create: if isSignedIn() && request.resource.data.citizenId == request.auth.uid;
+      
+      allow update: if isSignedIn() && (
+        getUserRole() == 'ADMIN' ||
+        (getUserRole() == 'OFFICER' && resource.data.assignedOfficerId == request.auth.uid) ||
+        (resource.data.citizenId == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['feedback', 'status', 'statusHistory', 'updatedAt']))
+      );
+      
+      allow delete: if isSignedIn() && getUserRole() == 'ADMIN';
+    }
+    
+    match /notifications/{document=**} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow write: if isSignedIn() && (getUserRole() == 'ADMIN' || getUserRole() == 'OFFICER' || request.resource.data.userId == request.auth.uid);
+    }
+    
+    match /departments/{document=**} {
+      allow read: if true;
+      allow write: if isSignedIn() && getUserRole() == 'ADMIN';
+    }
+    
+    match /officers/{document=**} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && getUserRole() == 'ADMIN';
+    }
+  }
+}

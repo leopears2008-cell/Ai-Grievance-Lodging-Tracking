@@ -1,0 +1,6 @@
+{
+  "name": "NivaranAI – AI-Powered Grievance Management System",
+  "description": "Government-grade AI-powered grievance redressal platform with multilingual voice input (Tamil & English), smart categorization, priority detection, automated officer assignment, tracking timeline, and comprehensive admin analytics.",
+  "requestFramePermissions": ["microphone", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
